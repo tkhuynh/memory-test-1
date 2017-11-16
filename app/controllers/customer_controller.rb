@@ -72,15 +72,19 @@ class CustomerController < ApplicationController
     "QC": "Quebec",
     "SK": "Saskatchewan"
   }
+  require 'memory_profiler'
 
   def create
-  	customer = {name: params[:name],email: params[:email],state: @@states[params[:state].to_s.to_sym]}
-  	found_customer = Customer.where(email: params[:email]).first
-  	if found_customer
-  		render json: { message: 'Customer exist'}
-  	else
-  		created_customer = Customer.create(customer)
-  		render json: customer
-  	end
+  	report = MemoryProfiler.report do
+	  	customer = {name: params[:name],email: params[:email],state: @@states[params[:state].to_s.to_sym]}
+	  	found_customer = Customer.where(email: params[:email]).first
+	  	if found_customer
+	  		render json: { message: 'Customer exist'}
+	  	else
+	  		created_customer = Customer.create(customer)
+	  		render json: customer
+	  	end
+	  end
+	  report.pretty_print
   end
 end
