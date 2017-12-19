@@ -3,6 +3,7 @@ class SmstestingController < ApplicationController
   include HTTParty
   def dummy
     rand_num = rand().to_s[-9..-1]
+    # url = "https://pierrysmsdev.herokuapp.com/smslogs?command=RT_REQUEST&spid=100941&mtmsgid=#{rand_num}&mttotal=3&mtseq=1&mtstat=DELIVRD&mterrcode=000"
     url = "https://esprit-sendreport.herokuapp.com/smslogs?command=RT_REQUEST&spid=100941&mtmsgid=#{rand_num}&mttotal=3&mtseq=1&mtstat=DELIVRD&mterrcode=000"
     Thread.new do
       sleep 0.2
